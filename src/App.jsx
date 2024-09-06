@@ -36,7 +36,7 @@ let x = createBrowserRouter([
       { path: "productdetails/:id/:category", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
       { path: "products", element: <ProtectedRoute><Products /></ProtectedRoute> },
       { path: "checkout", element: <ProtectedRoute><Checkout /></ProtectedRoute> },
-      { path: "fresh-cart-ecommerce-bay.vercel.app/allorders", element: <ProtectedRoute><Allorders /></ProtectedRoute> },
+      { path: "allorders", element: <ProtectedRoute><Allorders /></ProtectedRoute> },
       { path: "categories", element: <ProtectedRoute><Categories /></ProtectedRoute> },
       { path: "wishlist", element: <ProtectedRoute><Wishlist /></ProtectedRoute> },
       { path: "forgetpassword", element: <ForgetPassword /> },
