@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
+import { CartContext } from "../../context/CartContext"; // Update the import path
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // Define loading state
+  const [loading, setLoading] = useState(true);
   let { id, category } = useParams();
+
+  // Access the CartContext
+  const { addtocart } = useContext(CartContext);
 
   const settings = {
     dots: true,
@@ -37,20 +41,25 @@ export default function ProductDetails() {
         let related = res.data.data.filter(
           (product) => product.category.name === category
         );
-        setRelatedProducts(related); // Set the related products state
-        setLoading(false); // Set loading to false after fetching data
+        setRelatedProducts(related);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Failed to fetch related products:", error);
-        setLoading(false); // Set loading to false even on error
+        setLoading(false);
       });
   }
 
   useEffect(() => {
-    setLoading(true); // Set loading to true at the start
+    setLoading(true);
     getProduct(id);
     getAllProducts();
-  }, [id, category]); // Add id and category as dependencies
+  }, [id, category]);
+
+  // Handle adding product to cart
+  const handleAddToCart = () => {
+    addtocart(product._id);
+  };
 
   return (
     <>
@@ -82,7 +91,10 @@ export default function ProductDetails() {
             </span>
           </div>
 
-          <button className="btn">Add to cart</button>
+          {/* Button to add to cart */}
+          <button onClick={handleAddToCart} className="btn">
+            Add to cart
+          </button>
         </div>
       </div>
 
@@ -114,7 +126,10 @@ export default function ProductDetails() {
                       </span>
                     </div>
                   </Link>
-                  <button className="btn mt-2">Add to cart</button>
+                  {/* Button to add related product to cart */}
+                  <button onClick={() => addtocart(relatedProduct._id)} className="btn mt-2">
+                    Add to cart
+                  </button>
                 </div>
               </div>
             ))}
